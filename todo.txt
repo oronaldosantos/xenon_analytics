@@ -12,7 +12,7 @@
 	[ ] Tratamento de excessoes
 	[ ] Fazer controller Editar
 	[ ] Fazer controller Bloquear
-	[ ] Adicionar tipo de notificação
+	[ ] Adicionar tipo de notificacao
 	---
 	[X] Criar sistema basico de notificacoes
 	
