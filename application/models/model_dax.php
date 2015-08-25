@@ -268,8 +268,7 @@ class Model_dax extends CI_Model {
 
 				$segment = array(
 								'dax_segment_id' => $row->{'id'},
-								'dax_segment_name' => $row->{'name'},
-								'dax_segment_folder' => $row->{'folder'}
+								'dax_segment_name' => $row->{'name'}
 							);
 
 				$check = $this->db;
