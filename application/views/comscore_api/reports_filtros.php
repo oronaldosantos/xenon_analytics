@@ -29,8 +29,8 @@
 							
 							<h3 class="panel-title">
 								Report Itens<br />
-								<?php $result = $reports_update->result(); ?>
-								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($result[0]->date_time))?></small>
+								<?php $result_reports = $reports_update->result(); ?>
+								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($result_reports[0]->date_time))?></small>
 							</h3>
 							
 							<a href="<?=$this->config->item('base_url')?>comscore_api/refresh_reports/" class="btn pull-right btn-info btn-icon btn-icon-standalone">
@@ -98,7 +98,8 @@
 							
 							<h3 class="panel-title">
 								Segments<br />
-								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($segments_update->result()[0]->date_time))?></small>
+								<?php $results_segments = $segments_update->result(); ?>
+								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($results_segments[0]->date_time))?></small>
 							</h3>
 
 							<a href="<?=$this->config->item('base_url')?>comscore_api/refresh_segments" class="btn pull-right btn-info btn-icon btn-icon-standalone">
@@ -152,7 +153,8 @@
 
 							<h3 class="panel-title">
 								Visit Filters<br />
-								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($visit_filters_update->result()[0]->date_time))?></small>
+								<?php $result_visit_filters = $visit_filters_update->result(); ?>
+								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($result_visit_filters[0]->date_time))?></small>
 							</h3>
 
 							<a href="<?=$this->config->item('base_url')?>/comscore_api/refresh_visit_filters/" class="btn pull-right btn-info btn-icon btn-icon-standalone">
@@ -206,7 +208,8 @@
 							
 							<h3 class="panel-title">
 								Event Filters<br />
-								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($event_filters_update->result()[0]->date_time))?></small>
+								<?php $event_filters_result = $event_filters_update->result(); ?>
+								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($event_filters_result[0]->date_time))?></small>
 							</h3>
 
 							<a href="<?=$this->config->item('base_url')?>comscore_api/refresh_event_filters/" class="btn pull-right btn-info btn-icon btn-icon-standalone">
@@ -260,7 +263,8 @@
 							
 							<h3 class="panel-title">
 								Sites<br />
-								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($sites_update->result()[0]->date_time))?></small>
+								<?php $sites_result = $sites_update->result(); ?>
+								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($sites_result[0]->date_time))?></small>
 							</h3>
 
 							<a href="<?=$this->config->item('base_url')?>comscore_api/refresh_sites/" class="btn pull-right btn-info btn-icon btn-icon-standalone">
@@ -312,7 +316,8 @@
 							
 							<h3 class="panel-title">
 								Funnels<br />
-								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($funnels_update->result()[0]->date_time))?></small>
+								<?php $funnels_result = $funnels_update->result(); ?>
+								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($funnels_result[0]->date_time))?></small>
 							</h3>
 
 							<a href="<?=$this->config->item('base_url')?>comscore_api/refresh_funnels/" class="btn pull-right btn-info btn-icon btn-icon-standalone">
