@@ -24,11 +24,8 @@ class Curl {
 
 		$data = curl_exec($ch);
 
-		/**
-		  * TO DO:
-		  * Tratar da forma correta os erros na resposta
-		  * 
-		  */
+		// Card #9
+
 		if( empty($data) || !$data || $data = '' ){
 
 			throw new Exception('Houve um erro na resposta');

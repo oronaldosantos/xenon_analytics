@@ -16,11 +16,6 @@ class Top_noticias extends MY_Controller {
 
 	}
 
-	/**
-	  * TO DO:
-	  * - Verificar se existem registros da data anterior e posterior para controlar a exibição dos botoes de proximo e anterior
-	  *
-	  */
 	public function top_news_by_day($date = null) {
 
 		if (!$date) {

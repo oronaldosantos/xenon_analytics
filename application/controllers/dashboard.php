@@ -6,6 +6,11 @@ class Dashboard extends MY_Controller {
 		
 		$data_header['title'] = "Dashboard";
 
+		$date = new DateTime();
+		$data = $date->format('d/m/Y H:m:i');
+
+		echo $data;
+
 		$this->load->view("layout/header", $data_header);
 		$this->load->view("layout/top_bar");
 		$this->load->view("layout/nav");

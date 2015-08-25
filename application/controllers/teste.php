@@ -14,10 +14,3 @@ class Teste extends MY_Controller {
 	}
 
 }
-
-
-
-
-
-
-

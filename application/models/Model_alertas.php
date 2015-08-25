@@ -75,7 +75,7 @@ class Model_alertas extends CI_Model {
 			->where('dispositivo', 'total')
 			->where('origem', 'total')
 			->where('data', $dia)
-			->limit(10)
+			->limit(30)
 			->order_by('pageviews DESC, browsers DESC, comments DESC, shares DESC');
 
 		// pega dados da tabela temporaria
@@ -115,17 +115,13 @@ class Model_alertas extends CI_Model {
 				// verifica se a tabela destino está com os dados corretos
 				if( $d_tabela_destino_retorno->num_rows == 0 ){
 
-					throw new Exception('Tabela:' . $table_destino . ', não encontrou registros para essa data');
+					throw new Exception('Tabela:\'' . $table_destino . '\' não encontrou registros para essa data');
 
 				} else {
 
 					return TRUE;
 
-					/**
-					  * TO DO:
-					  * Percorrer os resultados encontrados para atualizar as colunas 'origem' e 'dispositivo' 
-					  * 
-					  */
+					// Card #10
 
 				}
 
