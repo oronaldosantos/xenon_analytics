@@ -29,7 +29,8 @@
 							
 							<h3 class="panel-title">
 								Report Itens<br />
-								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($reports_update->result()[0]->date_time))?></small>
+								<?php $result = $reports_update->result(); ?>
+								<small class="text-muted">Última atualização em: <?=date("d-M-Y \à\s H:i:s", strtotime($result[0]->date_time))?></small>
 							</h3>
 							
 							<a href="<?=$this->config->item('base_url')?>comscore_api/refresh_reports/" class="btn pull-right btn-info btn-icon btn-icon-standalone">
