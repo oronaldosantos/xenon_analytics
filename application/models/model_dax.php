@@ -266,21 +266,25 @@ class Model_dax extends CI_Model {
 
 			foreach ($segments as $row) {
 
+				print_r($row);
+				echo($row->{'id'});
+				die();
+
 				$segment = array(
-								'dax_segment_id' => $row->id,
-								'dax_segment_name' => $row->name,
-								'dax_segment_folder' => $row->folder
+								'dax_segment_id' => $row->{'id'},
+								'dax_segment_name' => $row->{'name'},
+								'dax_segment_folder' => $row->{'folder'}
 							);
 
 				$check = $this->db;
 				$check->select('dax_segment_id');
-				$check->where('dax_segment_id', $row->id);
+				$check->where('dax_segment_id', $row->{'id'});
 				$check->from($this->table_segments);
 				
 				if( $check->count_all_results() > 0 ){
 
 					$update = $this->db;
-					$update->where('dax_segment_id', $row->id);
+					$update->where('dax_segment_id', $row->{'id'});
 					$update->update($this->table_segments, $segment); 
 
 				} else {
