@@ -266,10 +266,6 @@ class Model_dax extends CI_Model {
 
 			foreach ($segments as $row) {
 
-				print_r($row);
-				echo($row->{'id'});
-				die();
-
 				$segment = array(
 								'dax_segment_id' => $row->{'id'},
 								'dax_segment_name' => $row->{'name'},
