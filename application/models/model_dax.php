@@ -393,7 +393,10 @@ class Model_dax extends CI_Model {
 
 		if( $table_name != '' ){
 
-			if( $this->db->insert($this->table_update, array( 'dax_table_updated' => $table_name )) ){
+			$now = new DateTime();
+			$now = $now->format('Y-m-d H:m:i');
+
+			if( $this->db->insert($this->table_update, array( 'dax_table_updated' => $table_name, 'date_time' => $now )) ){
 
 				return TRUE;
 
