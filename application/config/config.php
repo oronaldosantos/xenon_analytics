@@ -358,3 +358,12 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| comScore Digital Analytix Credentials
+|--------------------------------------------------------------------------
+*/
+$config['dax']['client'] = 'gazeta-do-povo';
+$config['dax']['username'] = 'ronaldob';
+$config['dax']['password'] = '12345678';

@@ -19,25 +19,25 @@ class Curl {
 	
 		curl_setopt($ch, CURLOPT_URL, $url);
     	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		
+		$data 		= curl_exec($ch);
+		$http_code 	= curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    	
+    	curl_close($ch);
 
-		$data = curl_exec($ch);
+		if( $http_code == 200 ){
 
-		// Card #9
+			if ($return_type == 'json')
+				$data = json_decode($data);
 
-		if( empty($data) || !$data || $data = '' ){
-
-			throw new Exception('Houve um erro na resposta');
+			return $data;
 
 		} else {
 
-			curl_close($ch);
-		
-			if ($return_type == 'json')
-				$data = json_decode($data);
-		
-			return $data;
+			throw new Exception('Erro [' . $http_code . ']:' . $data);
 
 		}
 
