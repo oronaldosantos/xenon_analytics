@@ -161,8 +161,7 @@ class Model_dax extends CI_Model {
 
 				$event = array(
 								'dax_event_filter_id' => $row->id,
-								'dax_event_filter_name' => $row->name,
-								'dax_event_filter_folder' => $row->folder
+								'dax_event_filter_name' => $row->name
 							);
 
 				$check = $this->db;
@@ -331,8 +330,7 @@ class Model_dax extends CI_Model {
 
 				$visit_filter = array(
 								'dax_visit_filter_id' => $row->id,
-								'dax_visit_filter_name' => $row->name,
-								'dax_visit_filter_folder' => $row->folder
+								'dax_visit_filter_name' => $row->name
 							);
 
 				$check = $this->db;
