@@ -19,12 +19,12 @@
 							
 							<h3 class="panel-title">Top 10 páginas em <?=$dia?></h3>
 
-							<a href="<?=$this->config->item('base_url')?>/top_noticias/top_news_by_day/<?=$dia_posterior?>" class="btn btn-info btn-icon btn-icon-standalone btn-icon-standalone-right pull-right">
+							<a href="<?=$this->config->item('base_url')?>top_noticias/top_news_by_day/<?=$dia_posterior?>" class="btn btn-info btn-icon btn-icon-standalone btn-icon-standalone-right pull-right">
 								<i class="fa-arrow-right"></i>
 								<span>Próximo dia</span>
 							</a>
 
-							<a href="<?=$this->config->item('base_url')?>/top_noticias/top_news_by_day/<?=$dia_anterior?>" class="btn btn-info btn-icon btn-icon-standalone pull-right">
+							<a href="<?=$this->config->item('base_url')?>top_noticias/top_news_by_day/<?=$dia_anterior?>" class="btn btn-info btn-icon btn-icon-standalone pull-right">
 								<i class="fa-arrow-left"></i>
 								<span>Dia Anterior</span>
 							</a>
