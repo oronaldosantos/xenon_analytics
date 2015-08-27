@@ -8,7 +8,7 @@
 	<meta name="description" content="Xenon Boostrap Admin Panel" />
 	<meta name="author" content="Ronaldo Bitencourt" />
 
-	<title><?php echo ( isset($title) ? $title . " | Projeto" : "Dashboard | Projeto" ); ?></title>
+	<title><?php echo ( isset($title) ? $title . " | Xenon Analytics" : "Dashboard | Xenon Analytics" ); ?></title>
 
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
 	<link rel="stylesheet" href="<?=$this->config->item('base_url')?>application/assets/css/fonts/linecons/css/linecons.css">
@@ -30,4 +30,4 @@
 
 
 </head>
-<body class="page-body<?php echo ( $title == 'Login' ? ' login-page' : '' ); ?>">
+<body class="page-body<?php echo ( ( isset($title) && $title == 'Login' ) ? ' login-page' : '' ); ?>">

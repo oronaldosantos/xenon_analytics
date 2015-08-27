@@ -115,7 +115,7 @@ class Model_alertas extends CI_Model {
 				// verifica se a tabela destino está com os dados corretos
 				if( $d_tabela_destino_retorno->num_rows == 0 ){
 
-					throw new Exception('Tabela:\'' . $table_destino . '\' não encontrou registros para essa data');
+					throw new Exception('Tabela:\'' . $this->table_destino . '\' não encontrou registros para essa data');
 
 				} else {
 
@@ -127,7 +127,7 @@ class Model_alertas extends CI_Model {
 
 			} else {
 				
-				throw new Exception('Tabela:' . $table_destino . ', já possui registros com essa data');
+				throw new Exception('Tabela:' . $this->table_destino . ', já possui registros com essa data');
 
 			}
 
