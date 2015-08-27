@@ -6,8 +6,9 @@ class Top_noticias extends MY_Controller {
 		
 		parent::__construct();
 
-		$this->load->library('curl');
-		$this->load->library('dax_api');
+		$this->load->library('Templates');
+		$this->load->library('Curl');
+		$this->load->library('Dax_api');
 		$this->load->model('Model_alertas');
 
 	}
@@ -23,7 +24,7 @@ class Top_noticias extends MY_Controller {
 		if (!$date) {
 			$date = date("Y-m-d", strtotime("-1 day"));
 		}
-
+ 
 		$dia_anterior = date('Y-m-d', strtotime($date . "-1 days"));
 		$data_view['dia_anterior'] = $dia_anterior;
 		
@@ -38,12 +39,7 @@ class Top_noticias extends MY_Controller {
 
 		$data_view['resultado'] = $this->Model_alertas->get_top_news_by_day($date_formated);
 		
-		$this->load->view("layout/header", $data_header);
-		$this->load->view("layout/top_bar");
-		$this->load->view("layout/nav");
-		$this->load->view("top_noticias/lista", $data_view);
-		$this->load->view("layout/foot");
-		$this->load->view("layout/footer");
+		$this->templates->load("top_noticias/lista", $data_header, $data_view);
 
 	}
 

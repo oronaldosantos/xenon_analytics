@@ -11,6 +11,16 @@ class MY_Exceptions extends CI_Exceptions {
 	
 	}
 
+	function show_404($page = '') {
+        
+        $heading = "404 Page Not Found";
+        $message = array('Sorry, the page you requested was not found. ');
+
+        log_message('error', '404 Page Not Found --> '.$page);
+        echo $this->show_error($heading, $message, 'error_404', 404);
+        exit;
+    }
+
 	function show_error($heading, $message, $template = 'error_general', $status_code = 500) {
 		
 		$header = array('title'=> $heading);
@@ -22,6 +32,9 @@ class MY_Exceptions extends CI_Exceptions {
 
 	    if ( $template == 'error_general' )
 	    	echo $this->CI->load->view('errors/error_general', $message, TRUE);
+		
+		if ( $template == 'error_404' )
+	    	echo $this->CI->load->view('errors/error_404', $message, TRUE);
 
 	    echo $this->CI->load->view('layout/footer', '', TRUE);
 	    echo $this->CI->load->view('layout/foot', '', TRUE);

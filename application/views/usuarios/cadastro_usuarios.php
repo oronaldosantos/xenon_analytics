@@ -43,7 +43,7 @@
 							<?php
 								
 								$attributes = array('role' => 'form', 'class' => 'form-horizontal validate');
-								echo form_open('usuarios/add/', $attributes);
+								echo form_open('usuarios/novo_form_action/', $attributes);
 							
 							?>
 								

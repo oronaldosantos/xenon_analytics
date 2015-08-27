@@ -7,6 +7,7 @@ class Alertas extends MY_Controller {
 		parent::__construct();
 
 		$this->load->model('Model_alertas');
+		$this->load->library('Templates');
 
 	}
 
@@ -14,12 +15,7 @@ class Alertas extends MY_Controller {
 
 		$data_header['title'] = "Alertas DAX";
 
-		$this->load->view("layout/header", $data_header);
-		$this->load->view("layout/top_bar");
-		$this->load->view("layout/nav");
-		$this->load->view("alertas/index");
-		$this->load->view("layout/foot");
-		$this->load->view("layout/footer");
+		$this->templates->load("alertas/index", $data_header);
 
 	}
 

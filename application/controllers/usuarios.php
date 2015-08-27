@@ -8,6 +8,7 @@ class Usuarios extends MY_Controller {
 
 		$this->load->helper(array('form', 'url', 'html'));
 		$this->load->library('form_validation');
+		$this->load->library('Templates');
 
 	}
 
@@ -17,14 +18,9 @@ class Usuarios extends MY_Controller {
 
 		$this->load->model('Model_usuarios');
 		
-		$dados['resultado'] = $this->Model_usuarios->lista_usuarios();
+		$data_view['resultado'] = $this->Model_usuarios->lista_usuarios();
 
-		$this->load->view("layout/header", $data_header);
-		$this->load->view("layout/top_bar");
-		$this->load->view("layout/nav");
-		$this->load->view("usuarios/lista_usuarios", $dados);
-		$this->load->view("layout/foot");
-		$this->load->view("layout/footer");
+		$this->templates->load("usuarios/lista_usuarios", $data_header, $data_view);
 
 	}
 
@@ -32,16 +28,11 @@ class Usuarios extends MY_Controller {
 
 		$data_header['title'] = "Cadastrar novo usuário";
 
-		$this->load->view("layout/header", $data_header);
-		$this->load->view("layout/top_bar");
-		$this->load->view("layout/nav");
-		$this->load->view("usuarios/cadastro_usuarios");
-		$this->load->view("layout/footer");
-		$this->load->view("layout/foot");
+		$this->templates->load("usuarios/cadastro_usuarios", $data_header);
 
 	}
 
-	public function add() {
+	public function novo_form_action() {
 
 		$this->load->model('Model_usuarios');
 
@@ -71,8 +62,8 @@ class Usuarios extends MY_Controller {
 
 			} else {
 				
-				echo 'Erro no banco de dados.';
-				$this->novo();
+				log_message('error', 'Controller: Usuarios -> delete() - Erro ao adicionar novo usuario');
+				redirect('/usuarios/novo');
 
 			}
 			
@@ -91,8 +82,8 @@ class Usuarios extends MY_Controller {
 
 		} else {
 			
-			echo 'Erro no banco de dados.';
-			$this->novo();
+			log_message('error', 'Controller: Usuarios -> delete() - Erro ao deletar usuario');
+			show_error('Erro no banco de dados.');
 
 		}
 

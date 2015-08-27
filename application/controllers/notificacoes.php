@@ -8,6 +8,7 @@ class Notificacoes extends MY_Controller {
 
 		$this->load->helper(array('form', 'url', 'html'));
 		$this->load->library('form_validation');
+		$this->load->library('Templates');
 		$this->load->model('Model_notificacoes');
 
 	}
@@ -16,14 +17,9 @@ class Notificacoes extends MY_Controller {
 		
 		$data_header['title'] = "Lista de notificações";
 
-		$dados['resultado'] = $this->Model_notificacoes->get_all();
-
-		$this->load->view("layout/header", $data_header);
-		$this->load->view("layout/top_bar");
-		$this->load->view("layout/nav");
-		$this->load->view("notificacoes/get_all", $dados);
-		$this->load->view("layout/foot");
-		$this->load->view("layout/footer");
+		$data_view['resultado'] = $this->Model_notificacoes->get_all();
+		
+		$this->templates->load("notificacoes/get_all", $data_header, $data_view);
 
 	}
 
@@ -31,12 +27,7 @@ class Notificacoes extends MY_Controller {
 
 		$data_header['title'] = "Cadastrar nova notificação";
 
-		$this->load->view("layout/header", $data_header);
-		$this->load->view("layout/top_bar");
-		$this->load->view("layout/nav");
-		$this->load->view("notificacoes/new");
-		$this->load->view("layout/footer");
-		$this->load->view("layout/foot");
+		$this->templates->load("notificacoes/get_all", $data_header);
 
 	}
 
@@ -65,8 +56,8 @@ class Notificacoes extends MY_Controller {
 
 			} else {
 				
-				echo 'Erro no banco de dados.';
-				$this->novo();
+				show_error('Erro no banco de dados.');
+				redirect('/notificacoes/novo');
 
 			}
 			
@@ -83,7 +74,7 @@ class Notificacoes extends MY_Controller {
 
 		} else {
 			
-			echo 'Erro no banco de dados.';
+			show_error('Erro no banco de dados.');
 			$this->novo();
 
 		}
