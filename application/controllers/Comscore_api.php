@@ -35,7 +35,7 @@ class Comscore_api extends CI_Controller {
 		$now 			= $date->format('Y-m-d H:i:s');
 		$now_comscore 	= $date->format('Ymd');
 		
-		$url = 'https://dax-rest.comscore.com/v1/reportitems.json?startdate=today&itemid=11750&eventfilterid=17456&site=gazeta-do-povo&client=' . $this->config->item('dax_client') . '&user=' . $this->config->item('dax_username') . '&password=' . $this->config->item('dax_password');
+		$url = 'https://dax-rest.comscore.com/v1/reportitems.json?startdate=' . $now_comscore . '&itemid=11750&eventfilterid=17456&site=gazeta-do-povo&client=' . $this->config->item('dax_client') . '&user=' . $this->config->item('dax_username') . '&password=' . $this->config->item('dax_password');
 		#echo($url);
 		#die();
 		#$url = 'http://localhost/application/assets/dax.json';
@@ -204,8 +204,9 @@ class Comscore_api extends CI_Controller {
 				#print_r($sections);
 				#echo("</pre>");
 				#die();
-
-				$section_id = $this->Model_sections->get_section_by_name($section)['section_id'];
+				
+				$section_new = $this->Model_sections->get_section_by_name($section);
+				$section_id  = $section_new['section_id'];
 
 				// pages
 				foreach ($pages as $page => $facts) {
