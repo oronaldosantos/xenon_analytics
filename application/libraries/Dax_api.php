@@ -26,7 +26,7 @@ class Dax_api {
 
 			if ($this->check_type($type)) {
 				
-				$url = "https://dax-rest.comscore.com/v1/" . $type . "." . $format . "?client=" . $this->ci->config->item('client', 'dax') . "&user=" . $this->ci->config->item('username', 'dax') . "&password=" . $this->ci->config->item('password', 'dax');
+				$url = "https://dax-rest.comscore.com/v1/" . $type . "." . $format . "?client=" . $this->ci->config->item('dax_client') . "&user=" . $this->ci->config->item('dax_username') . "&password=" . $this->ci->config->item('dax_password');
 				
 				try {
 

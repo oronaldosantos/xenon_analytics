@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Usuarios extends MY_Controller {
+class Usuarios extends CI_Controller {
 	
 	public function __construct() {
 		
@@ -9,6 +9,7 @@ class Usuarios extends MY_Controller {
 		$this->load->helper(array('form', 'url', 'html'));
 		$this->load->library('form_validation');
 		$this->load->library('Templates');
+		$this->load->model('Model_usuarios');
 
 	}
 
@@ -16,11 +17,9 @@ class Usuarios extends MY_Controller {
 		
 		$data_header['title'] = "Lista de usuários";
 
-		$this->load->model('Model_usuarios');
-		
-		$data_view['resultado'] = $this->Model_usuarios->lista_usuarios();
+		$data_view['resultado'] = $this->Model_usuarios->lista();
 
-		$this->templates->load("usuarios/lista_usuarios", $data_header, $data_view);
+		$this->templates->load("usuarios/list", $data_header, $data_view);
 
 	}
 
@@ -28,19 +27,17 @@ class Usuarios extends MY_Controller {
 
 		$data_header['title'] = "Cadastrar novo usuário";
 
-		$this->templates->load("usuarios/cadastro_usuarios", $data_header);
+		$this->templates->load("usuarios/new", $data_header);
 
 	}
 
 	public function novo_form_action() {
 
-		$this->load->model('Model_usuarios');
-
 		$this->form_validation->set_error_delimiters('<div class="erro">','</div>');
-		$this->form_validation->set_rules('nome','Nome','required|trim|xss_clean');
-		$this->form_validation->set_rules('email','E-mail','required|valid_email|trim|xss_clean|is_unique['.$this->Model_usuarios->table.'.email]');
-		$this->form_validation->set_rules('telefone','Telefone','required|number|trim|xss_clean');
-		$this->form_validation->set_rules('username','Nome de usuário','required|trim|xss_clean|is_unique['.$this->Model_usuarios->table.'.nome_usuario]');
+		$this->form_validation->set_rules('nome','Nome','required|trim');
+		$this->form_validation->set_rules('email','E-mail','required|valid_email|trim|is_unique['.$this->Model_usuarios->table.'.email]');
+		$this->form_validation->set_rules('telefone','Telefone','required|trim');
+		$this->form_validation->set_rules('username','Nome de usuário','required|trim|is_unique['.$this->Model_usuarios->table.'.username]');
 		
 		if( $this->form_validation->run() == FALSE ) {
 			
@@ -49,10 +46,10 @@ class Usuarios extends MY_Controller {
 		} else {
 			
 			$user = array(
-			   'nome' 			=> $this->form_validation->set_value('nome'),
+			   'name' 			=> $this->form_validation->set_value('nome'),
 			   'email' 			=> $this->form_validation->set_value('email'),
-			   'telefone' 		=> $this->form_validation->set_value('telefone'),
-			   'nome_usuario' 	=> $this->form_validation->set_value('username')
+			   'phone' 		=> $this->form_validation->set_value('telefone'),
+			   'username' 	=> $this->form_validation->set_value('username')
 			);
 			
 			if( $this->Model_usuarios->set($user) ){
@@ -63,7 +60,7 @@ class Usuarios extends MY_Controller {
 			} else {
 				
 				log_message('error', 'Controller: Usuarios -> delete() - Erro ao adicionar novo usuario');
-				redirect('/usuarios/novo');
+				redirect('/usuarios/new');
 
 			}
 			
@@ -72,8 +69,6 @@ class Usuarios extends MY_Controller {
 	}
 
 	public function delete($user_id){
-
-		$this->load->model('Model_usuarios');
 
 		if( $this->Model_usuarios->delete($user_id) ){
 

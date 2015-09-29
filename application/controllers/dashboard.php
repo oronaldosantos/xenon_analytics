@@ -2,16 +2,19 @@
 
 class Dashboard extends MY_Controller {
 	
+	public function __construct() {
+		
+		parent::__construct();
+
+		$this->load->library('Templates');
+	
+	}
+
 	public function index() {
 		
 		$data_header['title'] = "Dashboard";
 
-		$this->load->view("layout/header", $data_header);
-		$this->load->view("layout/top_bar");
-		$this->load->view("layout/nav");
-		$this->load->view("dashboard");
-		$this->load->view("layout/foot");
-		$this->load->view("layout/footer");
+		$this->templates->load("dashboard", $data_header);
 
 	}
 

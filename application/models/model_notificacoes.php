@@ -2,26 +2,20 @@
 
 class Model_notificacoes extends CI_Model {
 	
-	public $table = 'notificacoes';
-	public $table_vistas = 'notificacoes_vistas';
+	public $table = 'notifications';
+	public $table_vistas = 'notifications_views';
 
-	function get_all($id = FALSE) {
+	function lista() {
 		
-		$this->db->select('id, titulo, conteudo, date_time');
-		$this->db->from($this->table);
+		$result = $this->db->select('id, title, content, date_time')
+							  ->order_by("date_time", "desc")
+							  ->get($this->table);
 		
-		if( $id )
-			$this->db->where('id', $id);
-
-		$this->db->order_by("date_time", "desc"); 
-
-		$resultado = $this->db->get();
-		
-		if( $resultado->num_rows==0 )
+		if( $result->num_rows() === 0 )
 			return FALSE;
 		
 		else
-			return $resultado;
+			return $result;
 		
 	}
 

@@ -10,7 +10,7 @@ class Login extends CI_Controller {
 		$this->load->library('form_validation');
 
 	    if( $this->session->userdata('user_logado') ){
-    		redirect('/dashboard', 'refresh');
+    		redirect('/dashboard/', 'refresh');
     	}
 
 	}
@@ -20,7 +20,7 @@ class Login extends CI_Controller {
 		$data_header['title'] = "Login";
 
 		$this->form_validation->set_error_delimiters('<div class="erro">','</div>');
-		$this->form_validation->set_rules('username','Nome de usuário','required|trim|xss_clean');
+		$this->form_validation->set_rules('username','Nome de usuário','required|trim');
 		$this->form_validation->set_rules('passwd','Senha','required|trim|md5|callback_r_valida_login');	
 		
 		if( $this->form_validation->run() == FALSE ) {
@@ -31,7 +31,7 @@ class Login extends CI_Controller {
 
 		} else {
 			
-			redirect('/dashboard');
+			redirect('/dashboard/');
 
 		}
 
@@ -70,34 +70,6 @@ class Login extends CI_Controller {
 
 		$this->session->sess_destroy();
 		redirect('/');
-
-	}
-
-	public function ajax_check(){
-
-		$resp = array('accessGranted' => false, 'errors' => '');
-		
-		$user = "opa";
-		$pass = "opa";
-
-		if(isset($_POST['do_login'])) {
-
-			$user_post 		= $this->input->post('username');
-			$passwd_post 	= $this->input->post('passwd');
-			
-			if($user == strtolower($user_post) && $pass == $passwd_post) {
-				
-				$resp['accessGranted'] = true;
-			
-			} else {
-				
-				$resp['errors'] = '<strong>Usuário ou senha inválidos!</strong><br />Por favor verifique os dados.';
-			
-			}
-		
-		}
-		
-		echo json_encode($resp);
 
 	}
 

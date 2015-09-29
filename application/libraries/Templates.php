@@ -20,7 +20,7 @@ class Templates {
 		
 		if ( $view == '' || !isset($view) ) {
 			
-			show_error('deu pau');
+			show_error('Erro na geração do Template');
 
 		}
 
