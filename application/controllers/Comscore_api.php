@@ -19,7 +19,7 @@ class Comscore_api extends CI_Controller {
 		$this->load->model('Model_pages');
 		$this->load->model('Model_facts');
 
-		$this->output->enable_profiler(TRUE);
+		#$this->output->enable_profiler(TRUE);
 
 	}
 
