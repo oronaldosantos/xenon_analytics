@@ -26,33 +26,9 @@ class Model_facts extends CI_Model {
 
 		if ( is_array($fact) ) {
 			
-			if( $this->util->is_valid_date_time($fact['date_time']) ) {
+			if( $this->db->insert_batch($this->table, $fact) ) {
 
-				if( isset($fact['value']) ){
-
-					if( $this->Model_metrics_dimensions->get_metric_by_id($fact['ci_dax_metric_id']) ) {
-
-						if( $this->Model_metrics_dimensions->get_dimension_by_id($fact['ci_dax_dimension1_id']) ) {
-
-							if( $this->Model_metrics_dimensions->get_dimension_by_id($fact['ci_dax_dimension2_id']) ) {
-
-								if( $this->Model_pages->get($fact['ci_dax_page_id']) ) {
-
-									if( $this->db->insert($this->table, $fact) ) {
-
-										return TRUE;
-
-									}
-
-								}
-
-							}
-
-						}
-
-					}
-
-				}
+				return TRUE;
 
 			}
 

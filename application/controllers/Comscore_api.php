@@ -19,7 +19,7 @@ class Comscore_api extends CI_Controller {
 		$this->load->model('Model_pages');
 		$this->load->model('Model_facts');
 
-		#$this->output->enable_profiler(TRUE);
+		$this->output->enable_profiler(TRUE);
 
 	}
 
@@ -149,11 +149,6 @@ class Comscore_api extends CI_Controller {
 
 			$this->benchmark->mark('loop_metrics_and_dimensions_start');
 
-			#echo("<pre>");
-			#print_r($data_from_comscore_sinitize);
-			#echo("</pre>");
-			#die();
-
 			foreach ($data_from_comscore_sinitize as $r) {
 
 				$push['date_time'] = $r['date_time'];
@@ -195,15 +190,11 @@ class Comscore_api extends CI_Controller {
 			}
 			$this->benchmark->mark('loop_metrics_and_dimensions_end');
 
+			$facts_batch = array();
 
 			$this->benchmark->mark('inserts_start');
 			// sections
 			foreach ($sections as $section => $pages) {
-				
-				#echo("<pre>");
-				#print_r($sections);
-				#echo("</pre>");
-				#die();
 				
 				$section_new = $this->Model_sections->get_section_by_name($section);
 				$section_id  = $section_new['section_id'];
@@ -211,11 +202,6 @@ class Comscore_api extends CI_Controller {
 				// pages
 				foreach ($pages as $page => $facts) {
 					
-					#echo("<pre>");
-					#print_r($pages);
-					#echo("</pre>");
-					#die();
-
 					$new_page['id'] 				= $page;
 					$new_page['ci_dax_section_id'] 	= $section_id;
 
@@ -244,52 +230,57 @@ class Comscore_api extends CI_Controller {
 
 						if( $page_result->num_rows > 0 ){
 
-							$new_fact['date_time'] 				= $value['date_time'];
-							$new_fact['ci_dax_page_id'] 		= $new_page['id'];
-
-							$new_fact['ci_dax_dimension1_id'] 	= $value['dimensions']['source']['dimension_id'];
-							#$new_fact['ci_dax_dimension1_name'] = $value['dimensions']['source']['dimension_name'];
+							$new_fact['date_time'] 	= $value['date_time'];
+							$new_fact['dimension1'] = $value['dimensions']['source']['dimension_id'];
+							$new_fact['dimension2'] = $value['dimensions']['device']['dimension_id'];
 							
-							$new_fact['ci_dax_dimension2_id'] 	= $value['dimensions']['device']['dimension_id'];
-							#$new_fact['ci_dax_dimension2_name'] = $value['dimensions']['device']['dimension_name'];
-
 							// metrics
 							foreach ($value['metrics'] as $name => $metric) {
 
-								$new_fact['ci_dax_metric_id'] 	= $metric['definition']['metric_id'];
-								#$new_fact['ci_dax_metric_name'] 	= $metric['definition']['metric_name'];
-								$new_fact['value'] 				= $metric['value'];
+								if( $metric['definition']['metric_id'] == 1 )
+									$new_fact['pageviews'] = $metric['value'];
+								
+								if( $metric['definition']['metric_id'] == 2 )
+									$new_fact['browsers'] = $metric['value'];
+								
+								if( $metric['definition']['metric_id'] == 3 )
+									$new_fact['time_on_page'] = $metric['value'];
+								
+								if( $metric['definition']['metric_id'] == 4 )
+									$new_fact['comments'] = $metric['value'];
 
-								try {
-
-									$this->Model_facts->set($new_fact);
-
-									#echo("<pre>");
-									#print_r($new_fact);
-									#echo("</pre>");
-															
-								} catch (Exception $e) {
-
-									throw new Exception($e);
-									
-								}
+								if( $metric['definition']['metric_id'] == 5 )
+									$new_fact['bounce_rate'] = $metric['value'];
 
 							}
 
+							$new_fact['ci_dax_page_id'] = $new_page['id'];
+							$new_fact['ci_dax_section_id'] = $new_page['ci_dax_section_id'];
+
+							array_push( $facts_batch, $new_fact );
+
 						}
 
-					}
+					} // facts
 
-				}
+				} // pages
 
-			}
+			} // sections
 			$this->benchmark->mark('inserts_end');
 
-			echo("Dados resgatados");
+			$this->benchmark->mark('batch_start');
+			try {
 
-			#echo("<pre>");
-			#print_r($sections);
-			#echo("</pre>");
+				$this->Model_facts->set($facts_batch);
+										
+			} catch (Exception $e) {
+
+				throw new Exception($e);
+				
+			}
+			$this->benchmark->mark('batch_end');
+
+			echo("Batch data saved");
 
 		} catch (Exception $e) {
 			
@@ -307,114 +298,7 @@ class Comscore_api extends CI_Controller {
 
 		$data_view['creditos'] = $this->dax_api->list_files('credits');
 
-		#print_r($data_view['creditos']);
-		#die();
-
 		$this->templates->load("comscore/credits", $data_header, $data_view);
-
-	}
-
-	public function list_manager() {
-		
-		$data_header['title'] = "Reports e Filtros API DAx comScore";
-
-		$data_view['funnels']				= $this->Model_dax->list_funnels();
-		$data_view['funnels_update']		= $this->Model_dax->get_funnels_last_update();
-
-		$data_view['sites'] 				= $this->Model_dax->list_sites();
-		$data_view['sites_update'] 			= $this->Model_dax->get_sites_last_update();
-
-		$data_view['event_filters'] 		= $this->Model_dax->list_event_filters();
-		$data_view['event_filters_update'] 	= $this->Model_dax->get_event_filters_last_update();
-
-		$data_view['reports'] 				= $this->Model_dax->list_reports();
-		$data_view['reports_update'] 		= $this->Model_dax->get_reports_last_update();
-		
-		$data_view['segments'] 				= $this->Model_dax->list_segments();
-		$data_view['segments_update'] 		= $this->Model_dax->get_segments_last_update();
-		
-		$data_view['visit_filters'] 		= $this->Model_dax->list_visit_filters();
-		$data_view['visit_filters_update'] 	= $this->Model_dax->get_visit_filters_last_update();
-
-		$this->templates->load("comscore/list_manager", $data_header, $data_view);
-
-	}
-
-	public function refresh_sites(){
-
-		$data = $this->dax_api->list_files('sitelist');
-
-		if( $this->Model_dax->refresh_sites($data) ){
-
-			$this->session->set_flashdata('message', 'Lista de "Sites" Atualizada');
-			redirect('/comscore_api/list_manager/');
-
-		}
-
-	}
-
-	public function refresh_funnels(){
-
-		$data = $this->dax_api->list_files('funnels');
-
-		if( $this->Model_dax->refresh_funnels($data) ){
-
-			$this->session->set_flashdata('message', 'Lista de "Funnels" Atualizada');
-			redirect('/comscore_api/list_manager/');
-
-		}
-
-	}
-
-	public function refresh_event_filters(){
-
-		$data = $this->dax_api->list_files('eventfilterlist');
-
-		if( $this->Model_dax->refresh_event_filters($data) ){
-
-			$this->session->set_flashdata('message', 'Lista de "Event Filters" atualizada');
-			redirect('/comscore_api/list_manager/');
-
-		}
-
-	}
-
-	public function refresh_reports(){
-
-		$data = $this->dax_api->list_files('reportitemlist');
-
-		if( $this->Model_dax->refresh_reports($data) ){
-
-			$this->session->set_flashdata('message', 'Lista de "Report Itens" atualizada');
-			redirect('/comscore_api/list_manager/');
-
-		}
-
-	}
-
-	public function refresh_segments(){
-
-		$data = $this->dax_api->list_files('segmentlist');
-
-		if( $this->Model_dax->refresh_segments($data) ){
-
-			$this->session->set_flashdata('message', 'Lista de "Segments" atualizada');
-			redirect('/comscore_api/list_manager/');
-
-		}
-
-	}
-
-	public function refresh_visit_filters(){
-
-		$data = $this->dax_api->list_files('visitfilterlist');
-
-		if( $this->Model_dax->refresh_visit_filters($data) ){
-
-			$this->session->set_flashdata('message', 'Lista de "Visit Filters" atualizada');
-			redirect('/comscore_api/list_manager/');
-
-		}
 
 	}
 
